@@ -2,17 +2,18 @@ package com.cooksys.ftd.assignments.objects;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+@SuppressWarnings("restriction")
 interface IRational {
 
 	/**
 	 * @return the numerator of this rational number
 	 */
-	int getNumerator();
+	public int getNumerator();
 
 	/**
 	 * @return the denominator of this rational number
 	 */
-	int getDenominator();
+	public int getDenominator();
 
 	/**
 	 * Specializable constructor to take advantage of shared code between
@@ -29,7 +30,8 @@ interface IRational {
 	 * @throws IllegalArgumentException
 	 *             if the given denominator is 0
 	 */
-	IRational construct(int numerator, int denominator) throws IllegalArgumentException;
+	public IRational construct(int numerator, int denominator) throws IllegalArgumentException;
+		
 
 	/**
 	 * negation of rational values
@@ -39,8 +41,7 @@ interface IRational {
 	 * @return the negation of this
 	 */
 	default IRational negate() {
-
-		return construct(getNumerator() * -1, getDenominator());
+		return construct(this.getNumerator() * -1, this.getDenominator());		
 
 	}
 
@@ -54,11 +55,16 @@ interface IRational {
 	 *             if the numerator of this rational value is 0
 	 */
 	default IRational invert() throws IllegalStateException {
-		throw new NotImplementedException();
+		
+		if(this.getNumerator() == 0) {
+			throw new IllegalStateException();
+		}else {
+			return construct(getDenominator(), getNumerator());
+		}
 	}
 
 	/**
-	 * addition of rational values
+	 * addition of rational value
 	 * <p>
 	 * definition: `(n1 / d1) + (n2 / d2) = ((n1 * d2) + (n2 * d1)) / (d1 * d2)`
 	 *
@@ -69,7 +75,17 @@ interface IRational {
 	 *             if that is null
 	 */
 	default IRational add(IRational that) throws IllegalArgumentException {
-		throw new NotImplementedException();
+		
+		if(that == null) {
+			throw new IllegalArgumentException();
+		}else {
+			int n1 = this.getNumerator();
+			int d1 = this.getDenominator();
+			int n2 = that.getNumerator();
+			int d2 = that.getDenominator();
+			return construct(((n1 * d2) + (n2 * d1)), (d1 * d2));
+		}
+		
 	}
 
 	/**
@@ -84,7 +100,15 @@ interface IRational {
 	 *             if that is null
 	 */
 	default IRational sub(IRational that) throws IllegalArgumentException {
-		throw new NotImplementedException();
+		if(that == null) {
+			throw new IllegalArgumentException();
+		}else {
+			int n1 = this.getNumerator();
+			int d1 = this.getDenominator();
+			int n2 = that.getNumerator();
+			int d2 = that.getDenominator();
+			return construct(((n1 * d2) - (n2 * d1)) , (d1 * d2));
+		}
 	}
 
 	/**
@@ -99,7 +123,15 @@ interface IRational {
 	 *             if that is null
 	 */
 	default IRational mul(IRational that) throws IllegalArgumentException {
-		throw new NotImplementedException();
+		if(that == null) {
+			throw new IllegalArgumentException();
+		}else {
+			int n1 = this.getNumerator();
+			int d1 = this.getDenominator();
+			int n2 = that.getNumerator();
+			int d2 = that.getDenominator();
+			return construct((n1 * n2) , (d1 * d2));
+		}
 	}
 
 	/**
@@ -114,6 +146,14 @@ interface IRational {
 	 *             if that is null or if the numerator of that is 0
 	 */
 	default IRational div(IRational that) throws IllegalArgumentException {
-		throw new NotImplementedException();
+		if(that == null) {
+			throw new IllegalArgumentException();
+		}else {
+			int n1 = this.getNumerator();
+			int d1 = this.getDenominator();
+			int n2 = that.getNumerator();
+			int d2 = that.getDenominator();
+			return construct((n1 * d2) , (d1 * n2));
 	}
+}
 }

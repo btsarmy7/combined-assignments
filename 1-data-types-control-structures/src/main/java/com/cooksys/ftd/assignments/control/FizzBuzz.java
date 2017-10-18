@@ -14,6 +14,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * <p>
  * The exact message format for this assignment is specified in the `message(n)` method.
  */
+@SuppressWarnings("restriction")
 public class FizzBuzz {
 
     /**
@@ -26,7 +27,17 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if b is zero
      */
     public static boolean divides(int a, int b) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	
+    	if(b == 0) {
+    		throw new IllegalArgumentException();
+    	}else {
+    		boolean div = false;
+    		if(a % b == 0) {
+    			div = true;
+    		}
+    		return div;
+    	}
+       
     }
 
     /**
@@ -41,7 +52,18 @@ public class FizzBuzz {
      * @return a message according to the format above, or null if n is not divisible by either 3 or 5
      */
     public static String message(int n) {
-        throw new NotImplementedException();
+    	String messagee = "";
+    	
+    	if(!(divides(n, 3)) && !(divides(n, 5))) {
+    		messagee = null;
+    	}else if(divides(n, 3) && !(divides(n, 5))) {
+    		messagee = n + ": Fizz";
+    	}else if(!(divides(n, 3)) && divides(n, 5)) {
+    		messagee = n + ": Buzz";
+    	}else if(divides(n, 3) && divides(n, 5)) {
+    		messagee = n + ": FizzBuzz";
+    	} return messagee;
+    	
     }
 
     /**
@@ -55,7 +77,30 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if the given end is less than the given start
      */
     public static String[] messages(int start, int end) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if(end < start) {
+    		throw new IllegalArgumentException();
+    	}else {
+    		String[] messagees = new String[end - start];
+    		int count = 0;
+    		for(int i = 0; i < messagees.length; i++) {
+    			if(message(i + start) == null) {
+    				continue;
+    			} else{
+    				messagees[i] = message(i + start);
+    				count++;
+    			}
+    		}
+    		String[] m = new String[count]; 
+    		int count2 = 0;
+    		for(int a = 0; a < messagees.length; a++) {
+    			if(messagees[a] != null) {
+    				m[count2] = messagees[a];
+    				count2++;
+    			}
+    		}
+    		return m;
+    	}
+        
     }
 
     /**
@@ -63,7 +108,9 @@ public class FizzBuzz {
      * the relevant messages to sysout
      */
     public static void main(String[] args) {
-        throw new NotImplementedException();
+       for(int i = 1; i <= 115; i++) {
+    	   System.out.println(message(i));
+       }
     }
 
 }

@@ -12,6 +12,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * [1, 1, 2, 3, 2 + 3] => [1, 1, 2, 3, 5] =>
  * ...etc
  */
+
+@SuppressWarnings("restriction")
 public class Fibonacci {
 
     /**
@@ -23,8 +25,23 @@ public class Fibonacci {
      * @return the calculated element
      * @throws IllegalArgumentException if the given index is less than zero
      */
-    public static int atIndex(int i) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    
+	public static int atIndex(int i) throws IllegalArgumentException {
+    	
+    	if(i < 0) {
+    		throw new IllegalArgumentException();
+    	}else if(i <= 1) {
+    		return 1;
+    	}else {
+    		int[] fib = new int[i + 1];
+    		fib[0] = 1;
+    		fib[1] = 1;
+    		for(int x = 2; x < fib.length; x++) {
+    			fib[x] = fib[x - 1] + fib[x - 2];
+    		}return fib[i];
+    	  		
+    	}
+        
     }
 
     /**
@@ -37,8 +54,16 @@ public class Fibonacci {
      * @throws IllegalArgumentException if either the given start or end is negative, or if the
      *                                  given end is less than the given start
      */
-    public static int[] slice(int start, int end) throws IllegalArgumentException {
-        throw new NotImplementedException();
+   
+	public static int[] slice(int start, int end) throws IllegalArgumentException {
+    	if(start < 0 || end < 0 || start > end) {
+    		throw new IllegalArgumentException();
+    	}else {		
+    		int[] slices = new int[end - start];
+    		for(int i = 0; i < slices.length; i++) {
+    			slices[i] = atIndex(i + start);
+    		} return slices;
+    	}
     }
 
     /**
@@ -48,7 +73,17 @@ public class Fibonacci {
      * @return the beginning of the fibonacci sequence, up to the given count, as an array of int elements
      * @throws IllegalArgumentException if the given count is negative
      */
-    public static int[] fibonacci(int count) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    
+	public static int[] fibonacci(int count) throws IllegalArgumentException {
+        if(count < 0) {
+        	throw new IllegalArgumentException();
+        }else {
+        	int[] fibCount = new int[count];
+        	
+        	for(int i = 0; i < count; i++) {
+        		fibCount[i] = atIndex(i);
+        	} return fibCount;
+        }
+       
     }
 }
