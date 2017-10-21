@@ -1,8 +1,18 @@
 package com.cooksys.ftd.assignments.socket;
 
+import com.cooksys.ftd.assignments.socket.model.Config;
+import com.cooksys.ftd.assignments.socket.model.LocalConfig;
 import com.cooksys.ftd.assignments.socket.model.Student;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 public class Server extends Utils {
 
@@ -14,6 +24,19 @@ public class Server extends Utils {
      * @return a {@link Student} object unmarshalled from the given file path
      */
     public static Student loadStudent(String studentFilePath, JAXBContext jaxb) {
+    		
+    	try {
+    		
+    		//JAXBContext jbc = JAXBContext.newInstance(Student.class);
+			Unmarshaller um = jaxb.createUnmarshaller();
+			Student c = (Student) um.unmarshal(new File(studentFilePath));
+			//Student c = (Student) um.unmarshal(new File("config/student.xml"));
+			return c;
+			
+		} catch (JAXBException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
         return null; // TODO
     }
 
@@ -30,6 +53,35 @@ public class Server extends Utils {
      * Following this transaction, the server may shut down or listen for more connections.
      */
     public static void main(String[] args) {
-        // TODO
+    	
+    	
+    	System.out.println("Waiting for connection...");
+    	
+       		    	
+    	 try {
+  
+    		 Config cf = Utils.loadConfig("config/config.xml", Utils.createJAXBContext());
+    		 ServerSocket ss = new ServerSocket(cf.getLocal().getPort());
+    		 Socket clientSocket = ss.accept();
+    		 
+    		 System.out.println("Connected");
+    		 
+    		 DataOutputStream outro = new DataOutputStream(clientSocket.getOutputStream());
+    		 JAXBContext student = JAXBContext.newInstance(Student.class);
+    		 
+    		 Student jjk = loadStudent("config/student.xml", student);
+    		 
+    		 student.createMarshaller().marshal(jjk, outro);
+    		 
+ 	         outro.close();
+ 	         ss.close();
+ 	        
+ 	         
+    	 }catch (Exception je){
+    		 je.printStackTrace();
+    		 
+    	 }
+         
+       
     }
 }

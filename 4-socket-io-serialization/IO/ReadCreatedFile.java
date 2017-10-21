@@ -1,7 +1,11 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class ReadCreatedFile {
 	
@@ -49,6 +53,36 @@ public class ReadCreatedFile {
 
 			}
 
+		
+		
+		/*ServerSocket socket = null;
+		Socket sock = null;
+		InputStream in = null;
+		FileOutputStream st = null;
+		File f = null;
+		
+		System.out.println("Waiting...");
+		
+		try {
+			socket = new ServerSocket(7);
+			sock = socket.accept();
+			System.out.println("Accepted");
+			
+			f = new File("dfajsld.txt");
+			st = new FileOutputStream(f);
+			in = sock.getInputStream();
+			for(int i = 0; i < 5; i++) {
+				st.write(in.read());
+			}
+		}catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			in.close();
+			socket.close();
+			sock.close();
+			st.close();
+		}*/
+		
+		
 		}
-
 }
